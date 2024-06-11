@@ -1,3 +1,5 @@
+# is flask me maine http get request lgaya hai. so hume pi zero me bhi get request hi karna padhega
+
 from flask import Flask, jsonify
 
 app = Flask(__name__)
