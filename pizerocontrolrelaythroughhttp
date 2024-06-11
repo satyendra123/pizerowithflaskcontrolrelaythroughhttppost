@@ -1,0 +1,50 @@
+# ye code mera kaam kar rha hai. isme maine simply flask se data send kiya hai jo pi zero receive krta hai aur pi zero se connected relay tigger hota hai
+import requests
+import json
+from time import sleep
+import RPi.GPIO as GPIO
+
+device_id = "Device0001"
+ssid = "Airtel_tejv_3002"
+password = "air73137"
+
+HTTPS_GET_URL = "http://192.168.1.150:8000/esp32/boom/"
+
+LED_PIN = 2  # GPIO 2 for the built-in LED
+
+def setup():
+    GPIO.setmode(GPIO.BCM)  # Use Broadcom (BCM) pin numbering
+    GPIO.setup(LED_PIN, GPIO.OUT)  # Set pin as output
+    setup_wifi()
+
+def loop():
+    response = HTTPS_GET(HTTPS_GET_URL)
+    if response and response.get("status") == "success":
+        GPIO.output(LED_PIN, GPIO.HIGH)  # Turn on LED
+        sleep(1)
+        GPIO.output(LED_PIN, GPIO.LOW)  # Turn off LED
+
+    sleep(1)
+
+def setup_wifi():
+    # Assuming the Raspberry Pi is already connected to Wi-Fi
+    print(f'Connected to network {ssid}')
+
+def HTTPS_GET(url):
+    print("\nGetting from:", url)
+    print("Connecting to server...")
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            print("ServerResponse:", response.text)
+            return response.json()  # Parse and return the JSON response
+        else:
+            print("Failed to GET. Error:", response.text)
+            return None
+    except Exception as e:
+        print("Exception occurred:", e)
+        return None
+
+setup()
+while True:
+    loop()
