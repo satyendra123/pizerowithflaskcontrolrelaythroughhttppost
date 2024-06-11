@@ -1,4 +1,5 @@
-# ye code mera kaam kar rha hai. isme maine simply flask se data send kiya hai jo pi zero receive krta hai aur pi zero se connected relay tigger hota hai
+# ye code mera kaam kar rha hai. isme maine simply flask se data send kiya hai jo pi zero receive krta hai aur pi zero se connected relay tigger hota hai. flask jo hai http get request se data send karta hai
+# to jo mera pi zero hai wo receive krta hai http get request se hi is method se HTTPS_GET. so ye humara kaam perfectly ho rha hai
 import requests
 import json
 from time import sleep
